@@ -6,7 +6,25 @@ class Quiz extends Component {
 
     this.state = {
       timeRemaining: 60,
+      gameOver: false,
     };
+  }
+
+  componentDidMount() {
+    const timerTick = () => {
+      if (this.state.timeRemaining === 0) {
+        clearInterval(timer);
+        this.setState({
+          gameOver: true,
+        });
+      } else {
+        this.setState({
+          timeRemaining: this.state.timeRemaining - 1,
+        });
+      }
+    };
+
+    const timer = setInterval(timerTick, 1000);
   }
 
   render() {
