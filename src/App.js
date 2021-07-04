@@ -1,5 +1,6 @@
 import { Component } from "react";
 import "./App.css";
+import StartQuiz from "./components/StartQuiz";
 
 class App extends Component {
   constructor(props) {
@@ -24,11 +25,7 @@ class App extends Component {
         </div>
 
         {this.state.showStartContainer && (
-          <div className="position-absolute top-50 start-50 translate-middle start-quiz-container">
-            <button className="btn btn-success" onClick={this.startQuiz}>
-              START
-            </button>
-          </div>
+          <StartQuiz onClick={this.startQuiz} />
         )}
       </div>
     );
