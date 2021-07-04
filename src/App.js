@@ -1,6 +1,7 @@
 import { Component } from "react";
 import "./App.css";
 import StartQuiz from "./components/StartQuiz";
+import Quiz from "./containers/Quiz";
 
 class App extends Component {
   constructor(props) {
@@ -8,12 +9,14 @@ class App extends Component {
 
     this.state = {
       showStartContainer: true,
+      quizInProgress: false,
     };
   }
 
   startQuiz = () => {
     this.setState({
       showStartContainer: false,
+      quizInProgress: true,
     });
   };
 
@@ -27,6 +30,8 @@ class App extends Component {
         {this.state.showStartContainer && (
           <StartQuiz onClick={this.startQuiz} />
         )}
+
+        {this.state.quizInProgress && <Quiz />}
       </div>
     );
   }
