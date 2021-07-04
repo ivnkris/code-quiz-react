@@ -1,9 +1,9 @@
 import Option from "../Option";
 
-const QuestionAnswer = ({ question, choices }) => {
+const QuestionAnswer = ({ question, choices, checkAnswer }) => {
   const renderOptions = () => {
     return choices.map((option) => {
-      return <Option key={option} option={option} />;
+      return <Option key={option} option={option} checkAnswer={checkAnswer} />;
     });
   };
   return (
