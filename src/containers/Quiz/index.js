@@ -38,10 +38,12 @@ class Quiz extends Component {
     super(props);
 
     this.state = {
-      timeRemaining: 60,
+      timeRemaining: questions.length * 10,
       gameOver: false,
       currentQuestionIndex: 0,
       questions,
+      score: 0,
+      displayError: false,
     };
   }
 
@@ -62,20 +64,42 @@ class Quiz extends Component {
     const timer = setInterval(timerTick, 1000);
   }
 
-  checkAnswer = () => {
+  checkAnswer = (event) => {
+    const selectedOption = event.target.getAttribute("data-option");
+    const currentAnswer =
+      this.state.questions[this.state.currentQuestionIndex].answer;
+
+    const isCorrect = selectedOption === currentAnswer;
+
     if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-      this.setState({
-        currentQuestionIndex: this.state.currentQuestionIndex + 1,
-      });
+      if (isCorrect) {
+        this.setState({
+          currentQuestionIndex: this.state.currentQuestionIndex + 1,
+          score: this.state.score + 1,
+          displayError: false,
+        });
+      } else {
+        this.setState({
+          displayError: true,
+        });
+      }
     } else {
       this.setState({
         gameOver: true,
+        timeRemaining: 0,
+        displayError: false,
       });
     }
   };
 
   render() {
-    const { timeRemaining, gameOver, currentQuestionIndex } = this.state;
+    const {
+      timeRemaining,
+      gameOver,
+      currentQuestionIndex,
+      score,
+      displayError,
+    } = this.state;
 
     const question = questions[currentQuestionIndex];
     return (
@@ -83,6 +107,8 @@ class Quiz extends Component {
         <div className="card">
           <div className="card-header text-center">
             Time Remaining: {timeRemaining}
+            <br />
+            Score: {score} / {this.state.questions.length}
           </div>
           <div className="card-body text-center">
             {gameOver ? (
@@ -95,6 +121,11 @@ class Quiz extends Component {
               />
             )}
           </div>
+          {displayError && (
+            <div className="alert alert-danger" role="alert">
+              The answer is wrong! Please, try again!
+            </div>
+          )}
         </div>
       </div>
     );
